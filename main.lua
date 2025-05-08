@@ -1,17 +1,29 @@
 function love.load()
     love.window.setTitle("CatFood")
     love.graphics.setBackgroundColor(0,0,0)
-    love.window.setMode(800, 600)
+    love.window.setMode(800, 600, {fullscreen = true})
+    speed = 100
+    width, height = love.window.getMode()
+    playerX = width/2
+    playerY = height/2
 end
 
-function love.update()
+function love.update(dt)
     if love.keyboard.isDown("w") then
-        love.graphics.setBackgroundColor(255,0,0)
-    elseif love.keyboard.isDown("a") then
-        love.graphics.setBackgroundColor(0,255,0)
-    elseif love.keyboard.isDown("d") then
-        love.graphics.setBackgroundColor(0,0,255)
+        playerY = playerY - speed * dt
     elseif love.keyboard.isDown("s") then
-        love.graphics.setBackgroundColor(0,0,0)
+        playerY = playerY + speed * dt
     end
+    if love.keyboard.isDown("a") then
+        playerX = playerX - speed * dt
+    elseif love.keyboard.isDown("d") then
+        playerX = playerX + speed * dt
+    end
+    if love.keyboard.isDown("escape") then
+        love.event.quit()
+    end
+end
+function love.draw()
+    love.graphics.rectangle("fill", playerX-25, playerY-50, 50, 100)
+    love.graphics.print(height)
 end
